@@ -1,0 +1,22 @@
+<table class="table table-bordered table-striped text-center">
+    <thead class="table-primary">
+    <tr>
+        <th>Username</th>
+        <th>Weight Lifted</th>
+        <th>Cat Equivalent</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for entry in leaderboard %}
+        <tr>
+            <td>{{ entry.user.username }}</td>
+            <td>{{ entry.totalWeight }} lbs</td>
+            <td>{{ (entry.totalWeight // 18) }} fat cats</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">No data yet</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
