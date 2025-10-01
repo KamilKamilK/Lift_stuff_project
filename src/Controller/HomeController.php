@@ -6,13 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BaseController extends AbstractController
+class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'homepage')]
     public function index(): Response
     {
-        return $this->render('/base.html.twig', [
-            'message' => 'Witaj w Symfony na Dockerze!',
-        ]);
+        return $this->render('index.html.twig');
     }
 }

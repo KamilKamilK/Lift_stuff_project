@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to Lift Stuff{% endblock %}
+
+{% block hero %}
+    <div class="hero bg-primary text-white text-center py-5 mb-5">
+        <div class="container">
+            <h1 class="display-4">Welcome to Lift Stuff!</h1>
+            <p class="lead">Track your lifts, see your progress, and compete on the leaderboard.</p>
+            <a href="{{ path('lift_index') }}" class="btn btn-lg btn-light mt-3">
+                <i class="fas fa-dumbbell"></i> Start Lifting
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <i class="fas fa-chart-line fa-3x mb-3 text-primary"></i>
+            <h3>Track Progress</h3>
+            <p>Log your lifts and monitor your strength gains over time.</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <i class="fas fa-users fa-3x mb-3 text-primary"></i>
+            <h3>Leaderboard</h3>
+            <p>See how you compare with other lifters and aim for the top.</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <i class="fas fa-dumbbell fa-3x mb-3 text-primary"></i>
+            <h3>Simple & Fun</h3>
+            <p>Easily add lifts, reps, and weights without complicated setup.</p>
+        </div>
+    </div>
+{% endblock %}

@@ -19,7 +19,6 @@ class LiftController extends AbstractController
     {
         $currentUser = $this->getUser();
 
-        // Pobranie tylko repLogów zalogowanego użytkownika
         $repLogs = $doctrine->getRepository(RepLog::class)
             ->findBy(['user' => $currentUser]);
 
@@ -56,7 +55,7 @@ class LiftController extends AbstractController
         $reps = (int) $request->request->get('reps');
         $weight = (float) $request->request->get('weight');
 
-        $currentUser = $this->getUser(); // <--- pobranie zalogowanego użytkownika
+        $currentUser = $this->getUser();
 
         if ($itemLabel && $reps > 0 && $weight > 0 && $currentUser) {
             $repLog = new RepLog();
@@ -64,7 +63,7 @@ class LiftController extends AbstractController
             $repLog->setReps($reps);
             $repLog->setTotalWeightLifted($reps * $weight);
 
-            $repLog->setUser($currentUser); // <--- przypisanie użytkownika
+            $repLog->setUser($currentUser);
 
             $em = $doctrine->getManager();
             $em->persist($repLog);
