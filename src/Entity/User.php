@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
 #[ORM\Table(name: 'users')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -58,9 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // gwarancja, że każdy user ma przynajmniej ROLE_USER
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPassword(): string
     {
-        return $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -83,12 +83,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // np. usuń plainPassword jeśli byś takie miał
+        // np. usuń plainPassword jeśli używasz
     }
 
-    /**
-     * @return Collection<int, RepLog>
-     */
     public function getRepLogs(): Collection
     {
         return $this->repLogs;
@@ -100,19 +97,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->repLogs->add($repLog);
             $repLog->setUser($this);
         }
-
         return $this;
     }
 
     public function removeRepLog(RepLog $repLog): self
     {
         if ($this->repLogs->removeElement($repLog)) {
-            // set the owning side to null (unless already changed)
             if ($repLog->getUser() === $this) {
                 $repLog->setUser(null);
             }
         }
-
         return $this;
+    }
+
+    public function getAvatar(): string
+    {
+        return 'https://thecatapi.com/api/images/get?format=src&type=gif&r=' . rand(100, 999);
     }
 }

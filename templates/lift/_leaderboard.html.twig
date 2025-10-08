@@ -1,21 +1,17 @@
-<table class="table table-bordered table-striped text-center">
-    <thead class="table-primary">
+<table class="table leaderboard-table-striped leaderboard-table-hover leaderboard-table">
+    <thead>
     <tr>
-        <th>Username</th>
-        <th>Weight Lifted</th>
-        <th>Cat Equivalent</th>
+        <th class="text-center">Username</th>
+        <th class="text-center">Weight Lifted</th>
+        <th class="text-center">Cat Equivalent</th>
     </tr>
     </thead>
     <tbody>
-    {% for entry in leaderboard %}
+    {% for leader in leaderboard %}
         <tr>
-            <td>{{ entry.user.username }}</td>
-            <td>{{ entry.totalWeight }} lbs</td>
-            <td>{{ (entry.totalWeight // 18) }} fat cats</td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="3">No data yet</td>
+            <td class="text-center">{{ leader.username }}</td>
+            <td class="text-center">{{ leader.weight }}lbs</td>
+            <td class="text-center">{{ leader.in_cats }} fat cats</td>
         </tr>
     {% endfor %}
     </tbody>

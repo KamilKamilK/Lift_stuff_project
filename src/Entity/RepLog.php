@@ -10,6 +10,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: "rep_log")]
 class RepLog
 {
+    const ITEM_LABEL_PREFIX = 'liftable_thing.';
+
+    const WEIGHT_FAT_CAT = 18;
+
+    private static array $thingsYouCanLift = array(
+        'cat' => '9',
+        'fat_cat' => self::WEIGHT_FAT_CAT,
+        'laptop' => '4.5',
+        'coffee_cup' => '.5',
+    );
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
     #[ORM\Column(type: "integer")]
@@ -58,9 +68,20 @@ class RepLog
         return $this->item;
     }
 
-    public function setItem(string $item): self
+    public function getItemLabel(): string
     {
+        return self::ITEM_LABEL_PREFIX.$this->getItem();
+    }
+
+    public function setItem($item): static
+    {
+        if (!isset(self::$thingsYouCanLift[$item])) {
+            throw new \InvalidArgumentException(sprintf('You can\'t lift a "%s"!', $item));
+        }
+
         $this->item = $item;
+        $this->calculateTotalLifted();
+
         return $this;
     }
 
@@ -84,6 +105,29 @@ class RepLog
     {
         $this->user = $user;
         return $this;
+    }
+
+    public static function getThingsYouCanLiftChoices(): array
+    {
+        $things = array_keys(self::$thingsYouCanLift);
+        $choices = array();
+        foreach ($things as $thingKey) {
+            $choices[self::ITEM_LABEL_PREFIX.$thingKey] = $thingKey;
+        }
+
+        return $choices;
+    }
+
+    private function calculateTotalLifted(): void
+    {
+        if (!$this->getItem()) {
+            return;
+        }
+
+        $weight = self::$thingsYouCanLift[$this->getItem()];
+        $totalWeight = $weight * $this->getReps();
+
+        $this->totalWeightLifted = $totalWeight;
     }
 }
 

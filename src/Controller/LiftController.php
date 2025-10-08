@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\RepLog;
+use App\Entity\User;
+use App\Form\Type\RepLogType;
+use App\Repository\RepLogRepository;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,117 +16,75 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/lift', name: 'lift_')]
-class LiftController extends AbstractController
+class LiftController extends BaseController
 {
     #[Route('/', name: 'index')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(Request $request): Response
     {
-        $currentUser = $this->getUser();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
 
-        $repLogs = $doctrine->getRepository(RepLog::class)
-            ->findBy(['user' => $currentUser]);
+        // Tworzenie formularza dodawania rekordu
+        $form = $this->createForm(RepLogType::class);
+        $form->handleRequest($request);
 
-        $totalWeight = array_sum(array_map(fn($rep) => $rep->getTotalWeightLifted(), $repLogs));
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var RepLog $repLog */
+            $repLog = $form->getData();
+            $repLog->setUser($this->getUser());
 
-        $allRepLogs = $doctrine->getRepository(RepLog::class)->findAll();
+            $em = $this->doctrine->getManager();
+            $em->persist($repLog);
+            $em->flush();
 
-        $leaderboard = [];
-        foreach ($allRepLogs as $rep) {
-            $user = $rep->getUser();
-            $id = $user->getId();
-            if (!isset($leaderboard[$id])) {
-                $leaderboard[$id] = [
-                    'user' => $user,
-                    'totalWeight' => 0
-                ];
-            }
-            $leaderboard[$id]['totalWeight'] += $rep->getTotalWeightLifted();
+            $this->addFlash('notice', 'Reps crunched!');
+            return $this->redirectToRoute('lift_index');
         }
 
-        usort($leaderboard, fn($a, $b) => $b['totalWeight'] <=> $a['totalWeight']);
+        $currentUser = $this->getUser();
+
+        $repLogs = $this->doctrine
+            ->getRepository(RepLog::class)
+            ->findBy(['user' => $currentUser]);
+
+        $totalWeight = array_sum(array_map(
+            fn(RepLog $rep) => $rep->getTotalWeightLifted(),
+            $repLogs
+        ));
+
+        $leaderboard = $this->getLeaders();
 
         return $this->render('lift/index.html.twig', [
+            'form' => $form->createView(),
             'repLogs' => $repLogs,
             'totalWeight' => $totalWeight,
             'leaderboard' => $leaderboard,
         ]);
     }
 
-    #[Route('/add', name: 'add', methods: ['POST'])]
-    public function new(Request $request, ManagerRegistry $doctrine): Response
+    private function getLeaders(): array
     {
-        $itemLabel = $request->request->get('itemLabel');
-        $reps = (int) $request->request->get('reps');
-        $weight = (float) $request->request->get('weight');
+        $repLogRepo = $this->doctrine->getRepository(RepLog::class);
+        $userRepo = $this->doctrine->getRepository(User::class);
 
-        $currentUser = $this->getUser();
+        $leaderboardDetails = $repLogRepo->getLeaderboardDetails();
 
-        if ($itemLabel && $reps > 0 && $weight > 0 && $currentUser) {
-            $repLog = new RepLog();
-            $repLog->setItem($itemLabel);
-            $repLog->setReps($reps);
-            $repLog->setTotalWeightLifted($reps * $weight);
+        $leaderboard = [];
+        foreach ($leaderboardDetails as $details) {
+            $user = $userRepo->find($details['user_id']);
+            if (!$user) {
+                continue;
+            }
 
-            $repLog->setUser($currentUser);
-
-            $em = $doctrine->getManager();
-            $em->persist($repLog);
-            $em->flush();
-
-            $this->addFlash('success', 'New lift log added!');
-        } else {
-            $this->addFlash('error', 'Invalid input!');
+            $leaderboard[] = [
+                'username' => $user->getUserIdentifier(),
+                'weight' => $details['weightSum'],
+                'in_cats' => number_format(
+                    $details['weightSum'] / RepLog::WEIGHT_FAT_CAT,
+                    2
+                ),
+            ];
         }
 
-        return $this->redirectToRoute('lift_index');
-    }
-
-    #[Route('/{id}/edit', name: 'edit', methods: ['POST'])]
-    public function edit(int $id, Request $request, ManagerRegistry $doctrine): Response
-    {
-        $repLog = $doctrine->getRepository(RepLog::class)->find($id);
-
-        if (!$repLog) {
-            throw $this->createNotFoundException('Lift log not found');
-        }
-
-        $itemLabel = $request->request->get('itemLabel');
-        $reps = (int) $request->request->get('reps');
-        $weight = (float) $request->request->get('weight');
-
-        if ($itemLabel && $reps > 0 && $weight > 0) {
-            $repLog->setItemLabel($itemLabel);
-            $repLog->setReps($reps);
-            $repLog->setWeight($weight);
-            $repLog->setTotalWeightLifted($reps * $weight);
-
-            $doctrine->getManager()->flush();
-
-            $this->addFlash('success', 'Lift log updated!');
-        } else {
-            $this->addFlash('error', 'Invalid input!');
-        }
-
-        return $this->redirectToRoute('lift_index');
-    }
-
-    #[Route('/{id}/delete', name: 'delete', methods: ['POST'])]
-    public function delete(int $id, Request $request, ManagerRegistry $doctrine): Response
-    {
-        $repLog = $doctrine->getRepository(RepLog::class)->find($id);
-
-        if (!$repLog) {
-            throw $this->createNotFoundException('Lift log not found');
-        }
-
-        if ($this->isCsrfTokenValid('delete'.$repLog->getId(), $request->request->get('_token'))) {
-            $em = $doctrine->getManager();
-            $em->remove($repLog);
-            $em->flush();
-
-            $this->addFlash('success', 'Lift log deleted!');
-        }
-
-        return $this->redirectToRoute('lift_index');
+        return $leaderboard;
     }
 }
