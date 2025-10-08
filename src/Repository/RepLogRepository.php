@@ -13,4 +13,15 @@ class RepLogRepository extends ServiceEntityRepository
         parent::__construct($registry, RepLog::class);
     }
 
+    public function getLeaderboardDetails()
+    {
+        return $this->createQueryBuilder('rl')
+            ->select('IDENTITY(rl.user) as user_id, SUM(rl.totalWeightLifted) as weightSum')
+            ->groupBy('rl.user')
+            ->orderBy('weightSum', 'DESC')
+            ->getQuery()
+            ->execute()
+            ;
+    }
+
 }

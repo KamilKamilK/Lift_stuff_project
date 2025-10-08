@@ -21,12 +21,13 @@
                 </thead>
                 <tbody>
                 {% for repLog in repLogs %}
-                    <tr>
-                        <td>{{ repLog.item }}</td>
+                    <tr data-weight="{{ repLog.totalWeightLifted }}">
+                        <td>{{ repLog.itemLabel|trans }}</td>
                         <td>{{ repLog.reps }}</td>
                         <td>{{ repLog.totalWeightLifted }}</td>
                         <td>
-                            <a href="#" class="js-delete-rep-log">
+                            <a href="#" class="js-delete-rep-log"
+                               data-url="{{ path('rep_log_delete', {id: repLog.id}) }}">
                                 <span class="fas fa-trash"></span>
                             </a>
                         </td>
@@ -41,7 +42,7 @@
                 <tr>
                     <td>&nbsp;</td>
                     <th>Total</th>
-                    <th>{{ totalWeight }}</th>
+                    <th class="js-total-weight">{{ totalWeight }}</th>
                     <td>&nbsp;</td>
                 </tr>
                 </tfoot>
@@ -67,21 +68,64 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(document).ready(function() {
+        let RepLogApp = {
+            initialize: function ($wrapper) {
+                this.$wrapper = $wrapper;
+
+                this.$wrapper.find('.js-delete-rep-log').on('click',
+                    this.handleRepLogDelete
+                );
+
+                this.$wrapper.find(' tbody tr').on(
+                    'click',
+                    this.handleRowClick
+                );
+            },
+
+            updateTotalWeightLifted: function () {
+                let totalWeight = 0;
+                this.$wrapper.find('tbody tr').each(function () {
+                   totalWeight += $(this).data('weight')
+                });
+
+                this.$wrapper.find('.js-total-weight').html(totalWeight);
+            },
+
+            handleRepLogDelete: function (e) {
+                e.preventDefault();
+
+                let $link = $(e.currentTarget);
+
+                $link.addClass('text-danger');
+                $link.find('.fas')
+                    .removeClass('fa-trash')
+                    .addClass('fa-spinner')
+                    .addClass('fa-spin');
+
+                let deleteUrl = $link.data('url');
+                let $row = $link.closest('tr');
+
+
+                $.ajax({
+                    url: deleteUrl,
+                    method: "DELETE",
+                    success: function () {
+                        $row.fadeOut('normal', function () {
+                            $(this).remove();
+                            RepLogApp.updateTotalWeightLifted();
+                        });
+                    }
+                })
+            },
+
+            handleRowClick: function (e) {
+                console.log('row clicked!');
+            }
+        };
+        $(document).ready(function () {
             let $table = $('.js-rep-log-table');
 
-
-            $('.js-delete-rep-log').on('click', function(e) {
-                e.preventDefault();
-                console.log('todo delete!');
-            });
-
-            $table.find(' tbody tr').on('click', function () {
-                console.log('row clicked');
-            })
-
-
-
+            RepLogApp.initialize($table)
         });
 
 
