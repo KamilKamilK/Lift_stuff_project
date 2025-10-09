@@ -26,11 +26,10 @@ class RepLog
     #[Groups(["Default"])]
     private int $id;
 
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: "integer", nullable: true)]
     #[Groups(["Default"])]
-    #[Assert\NotBlank(message: "How many times did you lift this?")]
     #[Assert\GreaterThan(value: 0, message: "You can certainly lift more than just 0!")]
-    private int $reps;
+    private ?int $reps = null;
 
     #[ORM\Column(type: "string", length: 50)]
     #[Groups(["Default"])]
@@ -39,7 +38,7 @@ class RepLog
 
     #[ORM\Column(type: "float")]
     #[Groups(["Default"])]
-    private float $totalWeightLifted;
+    private float $totalWeightLifted = 0.0;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "repLogs")]
     #[ORM\JoinColumn(nullable: false)]
@@ -52,7 +51,7 @@ class RepLog
         return $this->id;
     }
 
-    public function getReps(): int
+    public function getReps(): ?int
     {
         return $this->reps;
     }
@@ -124,8 +123,13 @@ class RepLog
             return;
         }
 
+        $reps = $this->getReps();
+        if ($reps === null) {
+            return;
+        }
+
         $weight = self::$thingsYouCanLift[$this->getItem()];
-        $totalWeight = $weight * $this->getReps();
+        $totalWeight = $weight * $reps;
 
         $this->totalWeightLifted = $totalWeight;
     }
