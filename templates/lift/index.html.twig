@@ -67,65 +67,12 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/RepLogApp.js') }}"></script>
     <script>
-        let RepLogApp = {
-            initialize: function ($wrapper) {
-                this.$wrapper = $wrapper;
-
-                this.$wrapper.find('.js-delete-rep-log').on('click',
-                    this.handleRepLogDelete
-                );
-
-                this.$wrapper.find(' tbody tr').on(
-                    'click',
-                    this.handleRowClick
-                );
-            },
-
-            updateTotalWeightLifted: function () {
-                let totalWeight = 0;
-                this.$wrapper.find('tbody tr').each(function () {
-                   totalWeight += $(this).data('weight')
-                });
-
-                this.$wrapper.find('.js-total-weight').html(totalWeight);
-            },
-
-            handleRepLogDelete: function (e) {
-                e.preventDefault();
-
-                let $link = $(e.currentTarget);
-
-                $link.addClass('text-danger');
-                $link.find('.fas')
-                    .removeClass('fa-trash')
-                    .addClass('fa-spinner')
-                    .addClass('fa-spin');
-
-                let deleteUrl = $link.data('url');
-                let $row = $link.closest('tr');
-
-
-                $.ajax({
-                    url: deleteUrl,
-                    method: "DELETE",
-                    success: function () {
-                        $row.fadeOut('normal', function () {
-                            $(this).remove();
-                            RepLogApp.updateTotalWeightLifted();
-                        });
-                    }
-                })
-            },
-
-            handleRowClick: function (e) {
-                console.log('row clicked!');
-            }
-        };
         $(document).ready(function () {
             let $table = $('.js-rep-log-table');
 
-            RepLogApp.initialize($table)
+            let repLogApp = new RepLogApp($table)
         });
 
 
