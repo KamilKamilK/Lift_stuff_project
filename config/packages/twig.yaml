@@ -2,7 +2,4 @@ twig:
     file_name_pattern: '*.twig'
     auto_reload: true
     cache: false
-
-when@test:
-    twig:
-        strict_variables: true
+    form_themes: ['bootstrap_5_layout.html.twig']

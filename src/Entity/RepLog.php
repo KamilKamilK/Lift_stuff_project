@@ -29,6 +29,7 @@ class RepLog
     #[ORM\Column(type: "integer", nullable: true)]
     #[Groups(["Default"])]
     #[Assert\GreaterThan(value: 0, message: "You can certainly lift more than just 0!")]
+    #[Assert\NotBlank(message: "How many times did you lift this?")]
     private ?int $reps = null;
 
     #[ORM\Column(type: "string", length: 50)]
