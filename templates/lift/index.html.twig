@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-7 js-rep-log-table">
             <h2>
                 Lift History
                 <a href="#list-stuff-form" class="btn btn-md btn-success pull-right">
@@ -10,7 +10,7 @@
                 </a>
             </h2>
 
-            <table class="table table-striped js-rep-log-table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>What</th>
@@ -21,17 +21,8 @@
                 </thead>
                 <tbody>
                 {% for repLog in repLogs %}
-                    <tr data-weight="{{ repLog.totalWeightLifted }}">
-                        <td>{{ repLog.itemLabel|trans }}</td>
-                        <td>{{ repLog.reps }}</td>
-                        <td>{{ repLog.totalWeightLifted }}</td>
-                        <td>
-                            <a href="#" class="js-delete-rep-log"
-                               data-url="{{ path('rep_log_delete', {id: repLog.id}) }}">
-                                <span class="fas fa-trash"></span>
-                            </a>
-                        </td>
-                    </tr>
+                    {{ include('lift/_repRow.html.twig') }}
+
                 {% else %}
                     <tr>
                         <td colspan="4">Get liftin'!</td>
@@ -48,8 +39,9 @@
                 </tfoot>
             </table>
 
-            {# formularz dodawania repów #}
-            {{ include('lift/_form.html.twig') }}
+            <div class="js-new-rep-log-form-wrapper">
+                {{ include('lift/_form.html.twig') }}
+            </div>
         </div>
 
         <div class="col-md-5">
@@ -70,9 +62,9 @@
     <script src="{{ asset('js/RepLogApp.js') }}"></script>
     <script>
         $(document).ready(function () {
-            let $table = $('.js-rep-log-table');
+            let $wrapper = $('.js-rep-log-table');
 
-            RepLogApp.initialize($table)
+            RepLogApp.initialize($wrapper)
         });
     </script>
 {% endblock %}

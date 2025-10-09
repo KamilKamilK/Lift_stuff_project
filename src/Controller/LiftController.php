@@ -37,10 +37,15 @@ class LiftController extends BaseController
                 $em->persist($repLog);
                 $em->flush();
 
+                // return a blank form after success
+                if ($request->isXmlHttpRequest()) {
+                    return $this->render('lift/_repRow.html.twig', [
+                        'repLog' => $repLog
+                    ]);
+                }
+
                 return $this->redirectToRoute('lift_index');
             }
-
-            $this->addFlash('notice', 'Reps crunched!');
         }
 
         $currentUser = $this->getUser();
@@ -53,6 +58,14 @@ class LiftController extends BaseController
             fn(RepLog $rep) => $rep->getTotalWeightLifted(),
             $repLogs
         ));
+
+        // render just the form for AJAX, there is a validation error
+        if ($request->isXmlHttpRequest()) {
+            $html = $this->renderView('lift/_form.html.twig', [
+                'form' => $form->createView()
+            ]);
+            return new Response($html, 400);
+        }
 
         return $this->render('lift/index.html.twig', [
             'form' => $form->createView(),

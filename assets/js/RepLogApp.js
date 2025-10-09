@@ -6,17 +6,21 @@
             this.$wrapper = $wrapper;
             this.helper = new Helper($wrapper)
 
-            this.$wrapper.find('.js-delete-rep-log').on('click',
+            this.$wrapper.on(
+                'click',
+                '.js-delete-rep-log',
                 this.handleRepLogDelete.bind(this)
             );
 
-            this.$wrapper.find(' tbody tr').on(
+            this.$wrapper.on(
                 'click',
+                ' tbody tr',
                 this.handleRowClick.bind(this)
             );
 
-            this.$wrapper.find('.js-new-rep-log-form').on(
+            this.$wrapper.on(
                 'submit',
+                '.js-new-rep-log-form',
                 this.handleNewFormSubmit.bind(this)
             );
             console.log('[RepLogApp] initialized');
@@ -63,10 +67,27 @@
             e.preventDefault();
 
             let $form = $(e.currentTarget);
+            let $tbody = this.$wrapper.find('tbody')
+            let self = this
+
             $.ajax({
                 url: $form.attr('action'),
                 method: 'POST',
-                data: $form.serialize()
+                data: $form.serialize(),
+                success: function (data) {
+                    $tbody.append(data);
+                    self.updateTotalWeightLifted();
+
+                    $form[0].reset();
+
+                    $form.find('.form-error-message, .is-invalid').removeClass('is-invalid');
+                    $form.find('.invalid-feedback, .form-error-message').remove();
+
+                },
+                error: function(jqXHR) {
+                    $form.closest('.js-new-rep-log-form-wrapper')
+                        .html(jqXHR.responseText);
+                }
             })
         }
     };
