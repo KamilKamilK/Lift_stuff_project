@@ -1,9 +1,10 @@
-{{ form_start(form, {
-    'attr': {
-        'class': 'form-inline js-new-rep-log-form',
-        'novalidate': 'novalidate',
-    }
-}) }}
+<div class="js-new-rep-log-form-wrapper">
+    {{ form_start(form, {
+        'attr': {
+            'class': 'form-inline js-new-rep-log-form',
+            'novalidate': 'novalidate'
+        }
+    }) }}
     {{ form_errors(form) }}
 
     <div class="row g-2 align-items-end">
@@ -13,6 +14,7 @@
                 'label_attr': {'class': 'sr-only'}
             }) }}
         </div>
+
         <div class="col-auto">
             {{ form_row(form.reps, {
                 'label': 'How many times?',
@@ -20,8 +22,8 @@
                 'attr': {'placeholder': 'How many times?'}
             }) }}
         </div>
-        <div class="col-auto">
             <button type="submit" class="btn btn-primary">I Lifted it!</button>
-        </div>
     </div>
-{{ form_end(form) }}
+
+    {{ form_end(form) }}
+</div>
