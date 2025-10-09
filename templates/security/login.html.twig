@@ -23,10 +23,10 @@
             {% endif %}
             <form method="post" action="{{ path('login') }}">
                 <div class="mb-3">
-                    <input type="text" name="_username" class="form-control" placeholder="Username" value="{{ last_username }}" required autofocus>
+                    <input type="text" name="_username" class="form-select" placeholder="Username" value="{{ last_username }}" required autofocus>
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="_password" class="form-control" placeholder="Password" required>
+                    <input type="password" name="_password" class="form-select" placeholder="Password" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
             </form>

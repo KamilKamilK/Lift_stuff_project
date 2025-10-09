@@ -1,33 +1,27 @@
 {{ form_start(form, {
     'attr': {
-        'class': 'form-inline d-flex align-items-end gap-2',
-        'novalidate': 'novalidate'
+        'class': 'form-inline js-new-rep-log-form',
+        'novalidate': 'novalidate',
     }
 }) }}
-        {{ form_errors(form) }}
+    {{ form_errors(form) }}
 
-<div class="form-group mb-0">
-    {{ form_label(form.item, 'What did you lift?', {'label_attr': {'class': 'sr-only'}}) }}
-    {{ form_widget(form.item, {
-        'attr': {
-            'class': 'form-control',
-            'id': 'rep_item'
-        }
-    }) }}
-    <div id="rep_item_feedback" class="invalid-feedback d-none">What did you lift?</div>
-</div>
-
-<div class="form-group mb-0">
-    {{ form_row(form.reps, {
-        'label': 'How many times?',
-        'label_attr': {'class': 'sr-only'},
-        'attr': {
-            'placeholder': 'How many times?',
-            'class': 'form-control'
-        }
-    }) }}
-</div>
-
-<button type="submit" class="btn btn-primary mb-0">I Lifted it!</button>
-<script src="{{ asset('js/form.js') }}"></script>
+    <div class="row g-2 align-items-end">
+        <div class="col-auto">
+            {{ form_row(form.item, {
+                'label': 'What did you lift?',
+                'label_attr': {'class': 'sr-only'}
+            }) }}
+        </div>
+        <div class="col-auto">
+            {{ form_row(form.reps, {
+                'label': 'How many times?',
+                'label_attr': {'class': 'sr-only'},
+                'attr': {'placeholder': 'How many times?'}
+            }) }}
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">I Lifted it!</button>
+        </div>
+    </div>
 {{ form_end(form) }}

@@ -14,6 +14,12 @@
                 'click',
                 this.handleRowClick.bind(this)
             );
+
+            this.$wrapper.find('.js-new-rep-log-form').on(
+                'submit',
+                this.handleNewFormSubmit.bind(this)
+            );
+            console.log('[RepLogApp] initialized');
         },
 
         updateTotalWeightLifted: function () {
@@ -35,7 +41,7 @@
 
             let deleteUrl = $link.data('url');
             let $row = $link.closest('tr');
-
+            let self = this;
 
             $.ajax({
                 url: deleteUrl,
@@ -43,7 +49,7 @@
                 success: function () {
                     $row.fadeOut('normal', function () {
                         $(this).remove();
-                        RepLogApp.updateTotalWeightLifted();
+                        self.updateTotalWeightLifted();
                     });
                 }
             })
@@ -52,6 +58,17 @@
         handleRowClick: function (e) {
             console.log('row clicked!');
         },
+
+        handleNewFormSubmit: function (e) {
+            e.preventDefault();
+
+            let $form = $(e.currentTarget);
+            $.ajax({
+                url: $form.attr('action'),
+                method: 'POST',
+                data: $form.serialize()
+            })
+        }
     };
     /**
      * a "private" object
@@ -60,7 +77,7 @@
         this.$wrapper = $wrapper;
     };
 
-    Helper.calculateTotalWeight = function () {
+    Helper.prototype.calculateTotalWeight = function () {
         let totalWeight = 0;
         this.$wrapper.find('tbody tr').each(function () {
             totalWeight += $(this).data('weight')

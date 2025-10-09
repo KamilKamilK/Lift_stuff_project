@@ -40,7 +40,6 @@ class LiftController extends BaseController
                 return $this->redirectToRoute('lift_index');
             }
 
-            // Show flash only when there are errors
             $this->addFlash('notice', 'Reps crunched!');
         }
 
@@ -55,13 +54,11 @@ class LiftController extends BaseController
             $repLogs
         ));
 
-        $leaderboard = $this->getLeaders();
-
         return $this->render('lift/index.html.twig', [
             'form' => $form->createView(),
             'repLogs' => $repLogs,
             'totalWeight' => $totalWeight,
-            'leaderboard' => $leaderboard,
+            'leaderboard' => $this->getLeaders(),
         ]);
     }
 
