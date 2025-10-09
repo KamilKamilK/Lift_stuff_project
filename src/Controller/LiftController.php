@@ -27,17 +27,21 @@ class LiftController extends BaseController
         $form = $this->createForm(RepLogType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var RepLog $repLog */
-            $repLog = $form->getData();
-            $repLog->setUser($this->getUser());
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                /** @var RepLog $repLog */
+                $repLog = $form->getData();
+                $repLog->setUser($this->getUser());
 
-            $em = $this->doctrine->getManager();
-            $em->persist($repLog);
-            $em->flush();
+                $em = $this->doctrine->getManager();
+                $em->persist($repLog);
+                $em->flush();
 
+                return $this->redirectToRoute('lift_index');
+            }
+
+            // Show flash only when there are errors
             $this->addFlash('notice', 'Reps crunched!');
-            return $this->redirectToRoute('lift_index');
         }
 
         $currentUser = $this->getUser();

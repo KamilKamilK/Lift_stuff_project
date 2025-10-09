@@ -20,6 +20,8 @@ class RepLogType extends AbstractType
             ->add('item', ChoiceType::class, [
                 'label' => 'What did you lift?',
                 'choices' => RepLog::getThingsYouCanLiftChoices(),
+                'placeholder' => 'What did you lift?',
+                'required' => true,
             ]);
     }
 
