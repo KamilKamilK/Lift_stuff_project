@@ -14,15 +14,12 @@ class RepLogType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('reps', IntegerType::class, [
-                'label' => 'Number of reps',
-            ])
-            ->add('item', ChoiceType::class, [
-                'label' => 'What did you lift?',
+            ->add('reps', IntegerType::class)
+            ->add('item', ChoiceType::class, array(
                 'choices' => RepLog::getThingsYouCanLiftChoices(),
-                'placeholder' => 'What did you lift?',
-                'required' => true,
-            ]);
+                'placeholder' => 'What did you lift?'
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

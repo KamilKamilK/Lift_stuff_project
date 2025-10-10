@@ -64,7 +64,21 @@
         $(document).ready(function () {
             let $wrapper = $('.js-rep-log-table');
 
-            RepLogApp.initialize($wrapper)
+            new RepLogApp($($wrapper));
         });
+    </script>
+    <script type="text/template" id="js-rep-log-row-template">
+        <tr data-weight="<%= totalWeightLifted %>">
+            <td><%= itemLabel %></td>
+            <td><%= reps %></td>
+            <td><%= totalWeightLifted %></td>
+
+            <td>
+                <a href="#" class="js-delete-rep-log"
+                   data-url="<%= links._self %>">
+                    <span class="fas fa-trash"></span>
+                </a>
+            </td>
+        </tr>
     </script>
 {% endblock %}
