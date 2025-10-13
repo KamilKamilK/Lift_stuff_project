@@ -77,3 +77,18 @@ footer.footer {
     font-size: .9em;
 }
 
+/* Kolor tła inputów z błędem */
+.form-group.has-error input,
+.form-group.has-error select {
+    border-color: #dc3545; /* bootstrap-owy czerwony */
+    background-color: #f8d7da; /* lekko różowe tło */
+}
+
+/* Komunikat o błędzie */
+.js-field-error {
+    color: #dc3545; /* czerwony */
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
