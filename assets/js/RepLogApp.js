@@ -1,8 +1,11 @@
 'use strict';
-(function(window, $) {
+(function(window, $, Routing) {
     window.RepLogApp = function ($wrapper) {
         this.$wrapper = $wrapper;
         this.helper = new Helper(this.$wrapper);
+
+        this.loadRepLogs();
+
         this.$wrapper.on(
             'click',
             '.js-delete-rep-log',
@@ -24,6 +27,18 @@
 
         _selectors: {
             newRepForm: '.js-new-rep-log-form',
+        },
+
+        loadRepLogs: function () {
+            let self = this;
+            $.ajax({
+                url: Routing.generate('rep_log_list'),
+                success: function (data) {
+                    $.each(data.items, function (key, repLog) {
+                        self._addRow(repLog);
+                    })
+                }
+            })
         },
 
         updateTotalWeightLifted: function () {
@@ -68,6 +83,7 @@
                 url: $form.data('url'),
                 method: 'POST',
                 data: JSON.stringify(formData),
+                contentType: 'application/json',
                 success: function(data) {
                   self._clearForm();
                   self._addRow(data);
@@ -110,8 +126,15 @@
         },
 
         _addRow: function (repLog) {
-            console.log(repLog);
-        }
+            let tplText = $('#js-rep-log-row-template').html();
+            let tpl = _.template(tplText);
+
+            let html = tpl(repLog);
+            this.$wrapper.find('tbody')
+                .append($.parseHTML(html));
+
+            this.updateTotalWeightLifted()
+            }
     });
     /**
      * A "private" object
@@ -128,4 +151,4 @@
             return totalWeight;
         }
     });
-})(window, jQuery);
+})(window, jQuery, Routing);

@@ -37,21 +37,8 @@ class LiftController extends BaseController
             }
         }
 
-        $currentUser = $this->getUser();
-
-        $repLogs = $this->doctrine
-            ->getRepository(RepLog::class)
-            ->findBy(['user' => $currentUser]);
-
-        $totalWeight = array_sum(array_map(
-            fn(RepLog $rep) => $rep->getTotalWeightLifted(),
-            $repLogs
-        ));
-
         return $this->render('lift/index.html.twig', [
             'form' => $form->createView(),
-            'repLogs' => $repLogs,
-            'totalWeight' => $totalWeight,
             'leaderboard' => $this->getLeaders(),
         ]);
     }
