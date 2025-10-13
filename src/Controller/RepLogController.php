@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 #[Route('/reps', name: 'rep_log_')]
 class RepLogController extends BaseController
 {
-    #[Route('', name: 'list', methods: ['GET'])]
+    #[Route('', name: 'list', options: ['expose' => true], methods: ['GET'])]
     public function list(): JsonResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
@@ -41,7 +41,7 @@ class RepLogController extends BaseController
         return $this->createApiResponse($apiModel);
     }
 
-    #[Route('/reps/{id}', name: 'delete', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(RepLog $repLog): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
