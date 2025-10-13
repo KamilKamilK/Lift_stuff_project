@@ -14,9 +14,8 @@ Umożliwia dodawanie, przeglądanie i usuwanie rekordów z treningu oraz automat
 5. [Struktura aplikacji](#-struktura-aplikacji)
 6. [API](#-api)
 7. [Walidacja i obsługa błędów](#-walidacja-i-obsługa-błędów)
-8. [Przykładowe zrzuty ekranu](#-przykładowe-zrzuty-ekranu)
-9. [Autor i cel projektu](#-autor-i-cel-projektu)
-10. [Licencja](#-licencja)
+8. [Cel projektu](#-autor-i-cel-projektu)
+
 
 ---
 
