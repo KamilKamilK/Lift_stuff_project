@@ -57,8 +57,8 @@ class RepLogController extends BaseController
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    #[Route('', name: 'new', methods: ['POST'])]
-    public function new(Request $request): JsonResponse
+    #[Route('', name: 'new', options: ['expose' => true], methods: ['POST'])]
+    public function new(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
 
@@ -88,7 +88,9 @@ class RepLogController extends BaseController
 
         $apiModel = $this->createRepLogApiModel($repLog);
 
-        $response = $this->createApiResponse($apiModel);
+//        $response = $this->createApiResponse($apiModel);
+        $response = new Response(null, 204);
+
         $response->headers->set(
             'Location',
             $this->generateUrl('rep_log_get', ['id' => $repLog->getId()])
