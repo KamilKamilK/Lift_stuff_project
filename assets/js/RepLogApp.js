@@ -29,41 +29,40 @@
             newRepForm: '.js-new-rep-log-form',
         },
 
-        loadRepLogs: function () {
-            let self = this;
+        loadRepLogs() {
             $.ajax({
                 url: Routing.generate('rep_log_list'),
-            }).then(function (data) {
-                $.each(data.items, function (key, repLog) {
-                    self._addRow(repLog);
+            }).then(data => {
+                $.each(data.items, (key, repLog) => {
+                    this._addRow(repLog);
                 })
             })
         },
 
-        updateTotalWeightLifted: function () {
+        updateTotalWeightLifted() {
             this.$wrapper.find('.js-total-weight').html(
                 this.helper.calculateTotalWeight()
             );
         },
-        handleRepLogDelete: function (e) {
+        handleRepLogDelete(e) {
             e.preventDefault();
+
             let $link = $(e.currentTarget);
-            let self = this;
+
             swal({
                 title: 'Delete this log?',
                 text: 'What? Did you not actually lift this?',
                 showCancelButton: true,
                 showLoaderOnConfirm: true,
-                preConfirm: function () {
-                    return self._deleteRepLog($link)
-                }
-            }).catch(function (arg) {
+                preConfirm: () => this._deleteRepLog($link)
+
+            }).catch(arg => {
                     // console.log('I was canceled', arg)
                 }
             )
         },
 
-        _deleteRepLog: function ($link) {
+        _deleteRepLog($link) {
             $link.addClass('text-danger');
             $link.find('.fa')
                 .removeClass('fa-trash')
@@ -71,64 +70,66 @@
                 .addClass('fa-spin');
             let deleteUrl = $link.data('url');
             let $row = $link.closest('tr');
-            let self = this;
+
             return $.ajax({
                 url: deleteUrl,
                 method: 'DELETE',
-            }).then(function () {
-                $row.fadeOut('normal', function () {
-                    $(this).remove();
-                    self.updateTotalWeightLifted();
+            }).then(() => {
+                $row.fadeOut('normal', () => {
+                    $row.remove();
+                    this.updateTotalWeightLifted();
                 });
             });
         },
-        handleRowClick: function () {
+        handleRowClick() {
             console.log('row clicked!');
         },
-        handleNewFormSubmit: function (e) {
+        handleNewFormSubmit(e) {
             e.preventDefault();
             let $form = $(e.currentTarget);
             let formData = {};
-            $.each($form.serializeArray(), function (key, fieldData) {
+            $.each($form.serializeArray(), (key, fieldData) => {
                 formData[fieldData.name] = fieldData.value
             });
-            let self = this;
+
             this._saveRepLog(formData)
-                .then(function (data) {
-                    self._clearForm();
-                    self._addRow(data);
-                }).catch(function (errorData) {
-                self._mapErrorsToForm(errorData.errors);
+                .then(data => {
+                    this._clearForm();
+                    this._addRow(data);
+                }).catch(errorData => {
+                this._mapErrorsToForm(errorData.errors);
             });
         },
 
-        _saveRepLog: function (data) {
-            return new Promise(function (resolve, reject) {
+        _saveRepLog(data) {
+            return new Promise((resolve, reject) => {
+                const url = Routing.generate('rep_log_new')
+
                 $.ajax({
-                    url: Routing.generate('rep_log_new'),
+                    url,
                     method: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json',
-                }).then(function (data, textStatus, jqXHR) {
+                }).then((data, textStatus, jqXHR) => {
                     $.ajax({
                         url: jqXHR.getResponseHeader('Location')
-                    }).then(function (data) {
+                    }).then(data => {
                         resolve(data)
                     });
-                }).catch(function (jqXHR) {
+                }).catch(jqXHR => {
                     let errorData = JSON.parse(jqXHR.responseText);
                     reject(errorData);
                 })
             });
         },
 
-        _mapErrorsToForm: function (errorData) {
+        _mapErrorsToForm(errorData) {
             let $form = this.$wrapper.find(this._selectors.newRepForm);
             this._removeFormErrors();
 
-            $form.find(':input').each(function () {
-                let fieldName = $(this).attr('name');
-                let $wrapper = $(this).closest('.form-group');
+            $form.find(':input').each((index, element) => {
+                let fieldName = $(element).attr('name');
+                let $wrapper = $(element).closest('.form-group');
                 if (!errorData[fieldName]) {
                     return;
                 }
@@ -140,20 +141,20 @@
             })
         },
 
-        _removeFormErrors: function () {
+        _removeFormErrors() {
             let $form = this.$wrapper.find(this._selectors.newRepForm);
             $form.find('.js-field-error').remove();
             $form.find('.form-group').removeClass('has-error');
         },
 
-        _clearForm: function () {
+        _clearForm() {
             this._removeFormErrors()
 
             let $form = this.$wrapper.find(this._selectors.newRepForm);
             $form[0].reset();
         },
 
-        _addRow: function (repLog) {
+        _addRow(repLog) {
             let tplText = $('#js-rep-log-row-template').html();
             let tpl = _.template(tplText);
 
@@ -171,10 +172,10 @@
         this.$wrapper = $wrapper;
     };
     $.extend(Helper.prototype, {
-        calculateTotalWeight: function () {
+        calculateTotalWeight() {
             let totalWeight = 0;
-            this.$wrapper.find('tbody tr').each(function () {
-                totalWeight += $(this).data('weight');
+            this.$wrapper.find('tbody tr').each((index, element) => {
+                totalWeight += $(element).data('weight');
             });
             return totalWeight;
         }
