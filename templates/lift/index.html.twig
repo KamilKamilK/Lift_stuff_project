@@ -57,7 +57,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/sweetalert2/6.1.0/sweetalert2.min.js"></script>
-    <script src="{{ asset('js/RepLogApp.js') }}"></script>
+    <script src="{{ asset('dist/RepLogApp.js') }}"></script>
     <script>
         $(document).ready(function () {
             let $wrapper = $('.js-rep-log-table');
