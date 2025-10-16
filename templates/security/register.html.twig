@@ -11,13 +11,14 @@
 {% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-        <div class="login-box text-center">
+    <div class="container register-container">
+        <div class="card register-card text-center">
             <div class="mb-3">
-                <i class="bi bi-barbell" style="font-size: 2rem;"></i>
-                <h2>Register! Join Lift Stuff!</h2>
+                <i class="bi bi-barbell register-icon"></i>
+                <h2 class="mt-2">Register! Join Lift Stuff!</h2>
             </div>
-            <div class="color-bar"></div>
+
+            <div class="color-bar mb-3"></div>
 
             {% if error %}
                 <div class="alert alert-danger">{{ error }}</div>
@@ -25,22 +26,45 @@
 
             <form method="post" action="{{ path('register') }}">
                 <div class="mb-3">
-                    <label>
-                        <input type="text" name="username" class="form-select" placeholder="Username" required autofocus>
-                    </label>
+                    <input
+                        type="text"
+                        name="username"
+                        class="form-control"
+                        placeholder="Username"
+                        required
+                        autofocus
+                    >
                 </div>
+
                 <div class="mb-3">
-                    <label>
-                        <input type="password" name="password" class="form-select" placeholder="Password" required>
-                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Password"
+                        required
+                    >
                 </div>
+
                 <div class="mb-3">
-                    <label>
-                        <input type="password" name="password_confirm" class="form-select" placeholder="Confirm Password" required>
-                    </label>
+                    <input
+                        type="password"
+                        name="password_confirm"
+                        class="form-control"
+                        placeholder="Confirm Password"
+                        required
+                    >
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Register</button>
+
+                <button type="submit" class="btn btn-register w-100">
+                    Register
+                </button>
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/pages/register.css') }}">
 {% endblock %}

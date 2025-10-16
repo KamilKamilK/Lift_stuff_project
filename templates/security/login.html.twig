@@ -2,34 +2,50 @@
 
 {% block title %}Login - Lift Stuff{% endblock %}
 
-{% block navbar_links %}
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('register') }}">Register</a>
-        </li>
-    </ul>
-{% endblock %}
-
 {% block body %}
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-        <div class="login-box text-center">
-            <div class="mb-3">
-                <i class="bi bi-barbell" style="font-size: 2rem;"></i>
-                <h2>Login! Start Lifting!</h2>
+    <div class="container login-container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="card login-card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+            <div class="text-center mb-3">
+                <i class="bi bi-barbell login-icon"></i>
+                <h2 class="mt-2">Login! Start Lifting!</h2>
             </div>
-            <div class="color-bar"></div>
+
+            <div class="color-bar mb-3"></div>
+
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
+
             <form method="post" action="{{ path('login') }}">
                 <div class="mb-3">
-                    <input type="text" name="_username" class="form-select" placeholder="Username" value="{{ last_username }}" required autofocus>
+                    <input type="text" name="_username"
+                           class="form-control js-login-field-username"
+                           placeholder="Username"
+                           value="{{ last_username }}"
+                           required autofocus>
                 </div>
+
                 <div class="mb-3">
-                    <input type="password" name="_password" class="form-select" placeholder="Password" required>
+                    <input type="password" name="_password"
+                           class="form-control"
+                           placeholder="Password"
+                           required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn btn-login w-100">Login</button>
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/pages/login.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/login.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,54 @@
+/* ==============================
+   LOGIN PAGE STYLES
+   ============================== */
+
+/* Card and container */
+.login-container {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 2rem;
+}
+
+.login-icon {
+    font-size: 2rem;
+}
+
+/* Gradientowy pasek (spójny z loginem) */
+.color-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #007bff, #00d4ff);
+    border-radius: 4px;
+}
+
+/* Przycisk login */
+.btn-login {
+    background-color: #28a745; /* kolor główny */
+    color: #fff !important;    /* wymuszenie koloru tekstu */
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-login:hover,
+.btn-login:focus {
+    background-color: #218838;
+    color: #fff !important;
+}
+
+/* Warning for long username */
+.login-long-username-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #faebcc;
+    border-radius: 4px;
+}

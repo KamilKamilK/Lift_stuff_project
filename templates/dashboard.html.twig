@@ -33,3 +33,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/pages/dashboard.css') }}">
+{% endblock %}
