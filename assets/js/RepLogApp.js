@@ -1,7 +1,10 @@
 'use strict';
 import Helper from "./ReplogAppHelper";
+import Swal from "sweetalert2";
+const $ = require('jquery');
 
-(function (window, $, Routing, swal) {
+
+(function (window, Routing) {
     let HelperInstances = new Map();
 
     class RepLogApp {
@@ -54,19 +57,29 @@ import Helper from "./ReplogAppHelper";
         handleRepLogDelete(e) {
             e.preventDefault();
 
-            let $link = $(e.currentTarget);
+            const $link = $(e.currentTarget);
 
-            swal({
+            Swal.fire({
                 title: 'Delete this log?',
                 text: 'What? Did you not actually lift this?',
+                icon: 'warning',
                 showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
                 showLoaderOnConfirm: true,
-                preConfirm: () => this._deleteRepLog($link)
+                preConfirm: () => Promise.resolve(this._deleteRepLog($link)),
 
-            }).catch(arg => {
-                    // console.log('I was canceled', arg)
+                allowOutsideClick: () => !Swal.isLoading(),
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'The log has been removed.',
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
                 }
-            )
+            });
         }
 
         _deleteRepLog($link) {
@@ -200,4 +213,4 @@ import Helper from "./ReplogAppHelper";
             </td>
         </tr>`
     window.RepLogApp = RepLogApp;
-})(window, jQuery, Routing, swal);
+})(window, Routing);
