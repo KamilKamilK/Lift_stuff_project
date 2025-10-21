@@ -13,23 +13,26 @@
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 
     {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 
 {# Navbar fixed-top jak w oryginale #}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('homepage') }}">Lift Stuff</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="{{ path('homepage')}}" data-bs-toggle="tooltip" data-placement="bottom"
+        title="DO IT! LIFT STUFF!!!">Lift Stuff</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse justify-content-end" id="navbarMain">
             <ul class="navbar-nav ms-auto">
                 {% if app.user %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <li class="nav-item dropdown" data-bs-toggle="tooltip" data-placement="left"
+                        title="Welcome back {{ app.user.username }}">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="fa fa-user"></span> <strong>{{ app.user.userIdentifier }}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
@@ -75,16 +78,13 @@
     {% block body %}{% endblock %}
 
     <footer class="footer mt-5">
-        <hr />
-        <p>&copy; LiftStuff {{ ''|date('Y') }}</p>
+        <hr/>
+        <p>&copy; LiftStuff {{ ''|date('Y') }} by Kamil</p>
     </footer>
 </div>
 
 {# Skrypty JS - jQuery + Bootstrap bundle #}
 {% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.0.5/es6-promise.auto.min.js"></script>
