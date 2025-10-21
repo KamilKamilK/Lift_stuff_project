@@ -1,8 +1,20 @@
 const path = require("path");
 module.exports = {
-    entry: './assets/js/rep_log.js',
+    mode: "development",
+    entry: {
+        rep_log: './assets/js/rep_log.js',
+        login: './assets/js/login.js',
+    },
     output: {
         path: path.resolve(__dirname, 'public','build'),
-        filename: 'rep_log.js'
+        filename: '[name].js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            }
+        ]
     }
 }

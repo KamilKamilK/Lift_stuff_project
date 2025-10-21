@@ -52,3 +52,54 @@
     border: 1px solid #faebcc;
     border-radius: 4px;
 }
+
+/* ==============================
+   REGISTER PAGE STYLES
+   ============================== */
+
+/* Kontener rejestracji – centrowanie */
+.register-container {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Karta rejestracji */
+.register-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Ikona nad formularzem */
+.register-icon {
+    font-size: 2rem;
+}
+
+/* Gradientowy pasek (spójny z loginem) */
+.color-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #007bff, #00d4ff);
+    border-radius: 4px;
+}
+
+/* Przycisk rejestracji */
+.btn-register {
+    background-color: #28a745;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-register:hover,
+.btn-register:focus {
+    background-color: #218838;
+    color: #fff;
+}
+

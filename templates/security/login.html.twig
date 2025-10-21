@@ -40,12 +40,7 @@
     </div>
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('styles/pages/login.css') }}">
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/login.js') }}"></script>
+    <script src="{{ asset('build/login.js') }}"></script>
 {% endblock %}
