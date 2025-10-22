@@ -1,6 +1,5 @@
 'use strict';
 import $ from 'jquery';
-import '../styles/pages/login.css';
 
 $(document).ready(function () {
     $('.js-login-field-username').on('keydown', function (e) {
