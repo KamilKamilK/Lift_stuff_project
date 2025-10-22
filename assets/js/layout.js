@@ -6,8 +6,14 @@ import '../styles/pages/dashboard.css';
 import '../styles/pages/register.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
+import dumbbellImg from '../images/dumbbell.png';
+
 
 import * as bootstrap from 'bootstrap';
+
+document.querySelectorAll('.dumbbell, .mini-dumbbell').forEach(img => {
+    img.src = dumbbellImg;
+});
 
 function initBootstrapComponents() {
     document.querySelectorAll('.dropdown-toggle').forEach(el => {
