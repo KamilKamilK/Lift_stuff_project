@@ -1,5 +1,5 @@
 'use strict';
-import Helper from "./ReplogAppHelper";
+const Helper = require('./ReplogAppHelper');
 import Swal from "sweetalert2";
 import $ from 'jquery';
 

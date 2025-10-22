@@ -1,11 +1,10 @@
 'use strict';
 
-import $ from 'jquery';
-window.jQuery = $;
-import 'bootstrap';
-import 'babel-polyfill';
+import * as bootstrap from 'bootstrap';
 
-$(document).ready(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip();
+document.querySelectorAll('.dropdown-toggle').forEach(el => {
+    new bootstrap.Dropdown(el);
 });
-
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+    new bootstrap.Tooltip(el);
+});
