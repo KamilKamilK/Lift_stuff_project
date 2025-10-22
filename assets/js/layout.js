@@ -9,15 +9,15 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 import * as bootstrap from 'bootstrap';
 
-document.querySelectorAll('.dropdown-toggle').forEach(el => {
-    new bootstrap.Dropdown(el);
-});
-document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
-    if (el.closest('.nav-item.dropdown')) {
-        new bootstrap.Tooltip(el, {
-            placement: 'left'
-        });
-    } else {
-        new bootstrap.Tooltip(el);
-    }
-});
+function initBootstrapComponents() {
+    document.querySelectorAll('.dropdown-toggle').forEach(el => {
+        new bootstrap.Dropdown(el);
+    });
+
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+        const placement = el.closest('.nav-item.dropdown') ? 'left' : 'top';
+        new bootstrap.Tooltip(el, { placement });
+    });
+}
+
+initBootstrapComponents();
