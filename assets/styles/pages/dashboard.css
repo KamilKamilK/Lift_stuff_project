@@ -1,7 +1,8 @@
 .dumbbell {
-    height: 25px;
-    width: auto;
-    padding-right: 10px;
+    width: 1.2em;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 0.3em;
 }
 
 .leaderboard {

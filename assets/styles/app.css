@@ -9,8 +9,10 @@ footer.footer {
 }
 
 .mini-dumbbell {
-    width: 13px;
+    width: 1em;
     height: auto;
+    vertical-align: middle;
+    margin-right: 0.25em;
 }
 
 /* Kolor tła inputów z błędem */
