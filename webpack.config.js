@@ -36,6 +36,18 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
             {
+                test: /\.scss$/i,
+                use: [MiniCssExtractPlugin.loader, 'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: {
+                                quietDeps: true,
+                            },
+                        },
+                    }],
+            },
+            {
                 test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
                 type: 'asset/resource',
                 generator: {

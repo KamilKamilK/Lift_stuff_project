@@ -1,3 +1,10 @@
+@use 'bootstrap' as *;
+@use '../styles/pages/dashboard.scss';
+@use '../styles/pages/login.scss';
+@use '../styles/pages/register.scss';
+
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
 body {
     background-color: skyblue;
 }
@@ -15,16 +22,14 @@ footer.footer {
     margin-right: 0.25em;
 }
 
-/* Kolor tła inputów z błędem */
 .form-group.has-error input,
 .form-group.has-error select {
-    border-color: #dc3545; /* bootstrap-owy czerwony */
-    background-color: #f8d7da; /* lekko różowe tło */
+    border-color: #dc3545;
+    background-color: #f8d7da;
 }
 
-/* Komunikat o błędzie */
 .js-field-error {
-    color: #dc3545; /* czerwony */
+    color: #dc3545;
     font-size: 0.875rem;
     margin-top: 0.25rem;
     display: block;

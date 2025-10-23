@@ -1,15 +1,8 @@
 'use strict';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/main.css';
-import '../styles/pages/dashboard.css';
-import '../styles/pages/login.css';
-import '../styles/pages/register.css';
-import 'font-awesome/css/font-awesome.css';
+import '../styles/main.scss';
 
 import dumbbellImg from '../images/dumbbell.png';
-
-
 import * as bootstrap from 'bootstrap';
 
 document.querySelectorAll('.dumbbell, .mini-dumbbell').forEach(img => {
