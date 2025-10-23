@@ -69,7 +69,7 @@ module.exports = {
             $: 'jquery',
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].css'   // generuje osobne pliki CSS
+            filename: '[name].css',
         })
     ],
 }

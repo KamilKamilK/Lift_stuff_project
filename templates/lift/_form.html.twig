@@ -1,4 +1,7 @@
-<form class="js-new-rep-log-form d-flex align-items-start gap-2" novalidate data-url="{{ path('rep_log_new') }}">
+<form class="js-new-rep-log-form d-flex flex-wrap align-items-end gap-2"
+      novalidate
+      data-url="{{ path('rep_log_new') }}">
+
     <div class="form-group flex-fill">
         <label class="sr-only" for="rep_log_item">What did you lift?</label>
         <select id="rep_log_item"
@@ -22,5 +25,5 @@
                class="form-control"/>
     </div>
 
-    <button type="submit" class="btn btn-primary">I Lifted it!</button>
+    <button type="submit" class="btn btn-primary h-100">I Lifted it!</button>
 </form>
