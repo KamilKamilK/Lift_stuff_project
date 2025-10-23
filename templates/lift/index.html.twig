@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-7 js-rep-log-table">
+        <div class="col-md-7 js-rep-log-table" data-rep-logs="{{ repLogsJson|e('html_attr') }}">
             <h2>
                 Lift History
                 <a href="#list-stuff-form" class="btn btn-md btn-success pull-right">
@@ -38,7 +38,7 @@
 
         <div class="col-md-5">
             <div class="leaderboard p-3 rounded">
-                <h2 class="text-center">
+                <h2 class="text-center js-custom-popover" data-bs-toggle="popover" title="About the Leaderboard" data-bs-content="Want to be the leader? Lift stuff!">
                     <img class="dumbbell" alt="dumbbell">
                     Leaderboard
                 </h2>

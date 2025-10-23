@@ -37,9 +37,13 @@ class LiftController extends BaseController
             }
         }
 
+        $repLogModels = $this->findAllUsersRepLogModels();
+        $repLogJson = $this->serializer->serialize($repLogModels, 'json');
+
         return $this->render('lift/index.html.twig', [
             'form' => $form->createView(),
             'leaderboard' => $this->getLeaders(),
+            'repLogsJson' => $repLogJson
         ]);
     }
 

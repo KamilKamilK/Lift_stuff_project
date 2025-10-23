@@ -6,12 +6,14 @@ import $ from 'jquery';
 let HelperInstances = new Map();
 
 class RepLogApp {
-    constructor($wrapper) {
+    constructor($wrapper, initialRepLogs) {
         this.$wrapper = $wrapper;
         this.repLogs = new Map();
         HelperInstances.set(this, new Helper(this.repLogs))
 
-        this.loadRepLogs();
+        for (let repLog of initialRepLogs) {
+            this._addRow(repLog);
+        }
 
         this.$wrapper.on(
             'click',
@@ -34,16 +36,6 @@ class RepLogApp {
         return {
             newRepForm: '.js-new-rep-log-form',
         };
-    }
-
-    loadRepLogs() {
-        $.ajax({
-            url: Routing.generate('rep_log_list'),
-        }).then(data => {
-            for (let repLog of data.items) {
-                this._addRow(repLog);
-            }
-        });
     }
 
     updateTotalWeightLifted() {
