@@ -4,13 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: "development",
+    devtool: "source-map",
     entry: {
         rep_log: './assets/js/rep_log.js',
         login: './assets/js/login.js',
         layout: './assets/js/layout.js',
     },
     output: {
-        path: path.resolve(__dirname, 'public','build'),
+        path: path.resolve(__dirname, 'public', 'build'),
         filename: '[name].js'
     },
     module: {
@@ -33,14 +34,26 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {sourceMap: true}
+                    }
+                ],
             },
             {
                 test: /\.scss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader',
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {sourceMap: true}
+                    },
                     {
                         loader: 'sass-loader',
                         options: {
+                            sourceMap: true,
                             sassOptions: {
                                 quietDeps: true,
                             },
