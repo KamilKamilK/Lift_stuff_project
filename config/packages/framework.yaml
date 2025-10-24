@@ -5,7 +5,8 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
     assets:
-        base_url: [ 'http://localhost:8081' ]
+#        base_url: [ 'http://localhost:8081' ]
+        json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
 
     #esi: true
     #fragments: true

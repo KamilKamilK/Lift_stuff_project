@@ -17,7 +17,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'public', 'build'),
-        filename: isProduction ? '[name].js' : '[name].js',
+        filename: isProduction ? '[name].[contenthash].js' : '[name].js',
         assetModuleFilename: 'assets/[name].[hash][ext][query]',
         publicPath: isDevServer ? 'http://localhost:8081/build/' : '/build/',
         clean: true,
@@ -63,15 +63,18 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({ filename: isProduction ? '[name].css' : '[name].css' }),
+        new MiniCssExtractPlugin({ filename: isProduction ? '[name].[contenthash].css' : '[name].css' }),
         new WebpackManifestPlugin({
-            fileName: 'manifest.js',
-            generate(seed, files) {
-                const manifestObj = files.reduce((acc, file) => {
-                    acc[file.name] = file.path;
-                    return acc;
-                }, {});
-                return `window.manifest = ${JSON.stringify(manifestObj)};`;
+            fileName: 'manifest.json',
+            writeToFileEmit: true,
+            basePath: 'build/',
+            publicPath: isDevServer ? 'http://localhost:8081/build/' : '/build/',
+            generate: (seed, files) => {
+                const manifest = {};
+                files.forEach(file => {
+                    manifest[file.name] = file.path;
+                });
+                return manifest;
             }
         }),
         new webpack.ProvidePlugin({
