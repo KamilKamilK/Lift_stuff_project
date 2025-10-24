@@ -1,5 +1,4 @@
 'use strict';
-import $ from 'jquery';
 
 $(document).ready(function () {
     $('.js-login-field-username').on('keydown', function (e) {

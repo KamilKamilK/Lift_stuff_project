@@ -1,8 +1,9 @@
 'use strict';
+
 import Helper from './ReplogAppHelper';
 import Swal from "sweetalert2";
-import $ from 'jquery';
-const Routing = require('./Routing'); // <--- poprawna wersja
+import Routing from './Routing';
+import random from 'lodash/random';
 
 
 
@@ -17,6 +18,8 @@ class RepLogApp {
         for (let repLog of initialRepLogs) {
             this._addRow(repLog);
         }
+
+        this._clearForm();
 
         this.$wrapper.on(
             'click',
@@ -171,6 +174,8 @@ class RepLogApp {
 
         let $form = this.$wrapper.find(RepLogApp._selectors.newRepForm);
         $form[0].reset();
+
+        $form.find('[name="reps"]').val(random(1,10));
     }
 
     _addRow(repLog) {
@@ -206,5 +211,4 @@ const rowTemplate = (repLog) =>
             </td>
         </tr>`
 
-window.RepLogApp = RepLogApp;
 export default RepLogApp;

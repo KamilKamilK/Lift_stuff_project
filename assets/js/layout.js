@@ -1,9 +1,9 @@
 'use strict';
 
 import '../styles/main.scss';
-
 import dumbbellImg from '../images/dumbbell.png';
-import * as bootstrap from 'bootstrap';
+import * as bootstrap from 'bootstrap/dist/js/bootstrap.esm.js';
+window.bootstrap = bootstrap;
 
 document.querySelectorAll('.dumbbell, .mini-dumbbell').forEach(img => {
     img.src = dumbbellImg;

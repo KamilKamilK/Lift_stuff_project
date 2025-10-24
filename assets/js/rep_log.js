@@ -1,8 +1,3 @@
-import $ from 'jquery';
-
-import * as bootstrap from 'bootstrap/dist/js/bootstrap.esm.js';
-window.bootstrap = bootstrap;
-
 import RepLogApp from './Components/RepLogApp';
 
 $(document).ready(function () {
