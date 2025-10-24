@@ -4,6 +4,8 @@ framework:
 
     # Note that the session will be started ONLY if you read or write from it.
     session: true
+    assets:
+        base_url: [ 'http://localhost:8081' ]
 
     #esi: true
     #fragments: true

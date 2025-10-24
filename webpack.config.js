@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const isDevServer = process.argv.some(arg => arg.includes('serve'));
 
 module.exports = {
     mode: "development",
@@ -15,8 +16,21 @@ module.exports = {
         path: path.resolve(__dirname, 'public', 'build'),
         filename: '[name].js',
         assetModuleFilename: 'assets/[name].[hash][ext][query]',
-        publicPath: '/build/',
+        publicPath: isDevServer ? 'http://localhost:8081/build/' : '/build/',
         clean: true,
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, "public"),
+        },
+        port: 8081,
+        hot: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        },
+        devMiddleware: {
+            publicPath: '/build/',
+        },
     },
     module: {
         rules: [
