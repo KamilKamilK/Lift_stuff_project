@@ -80,6 +80,10 @@ module.exports = {
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
         }),
+
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
+        })
     ],
     optimization: {
         minimize: isProduction,
