@@ -2,6 +2,9 @@
 import Helper from './ReplogAppHelper';
 import Swal from "sweetalert2";
 import $ from 'jquery';
+const Routing = require('./Routing'); // <--- poprawna wersja
+
+
 
 let HelperInstances = new Map();
 
